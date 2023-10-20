@@ -24,9 +24,22 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
+/*
 Route::get('/admin/dashboard',[AdminController::class,'AdminDashboard'])->name('admin.dashboard');
 Route::get('/vendor/dashboard',[VendorController::class,'VendorDashboard'])->name('vendor.dashboard');
+*/
+
+//admin route
+Route::middleware(['auth','role:admin'])->group(function(){
+    Route::get('/admin/dashboard',[AdminController::class,'AdminDashboard'])->name('admin.dashboard');
+
+});
+
+//vendor route
+Route::middleware(['auth','role:vendor'])->group(function(){
+    Route::get('/vendor/dashboard',[VendorController::class,'VendorDashboard'])->name('vendor.dashboard');
+
+});
 
 
 Route::middleware('auth')->group(function () {
